@@ -131,8 +131,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\external\glad\src\glad.c" />
+    <ClCompile Include="MeshCreator.cpp" />
+    <ClCompile Include="MeshCreator.hpp" />
     <ClCompile Include="OceanGL.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.hpp" />

@@ -6,6 +6,8 @@
 #include <GLFW/glfw3.h>
 
 #include "Renderer.hpp"
+
+
 int main()
 {
 	std::unique_ptr<Renderer> renderer;
