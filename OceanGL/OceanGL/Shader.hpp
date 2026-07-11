@@ -1,9 +1,14 @@
 #include <glad/glad.h>
+
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 class Shader {
 private:
+
+	//default built in shaders 
 	const std::string default_vertex_shader = "#version 330 core\n"
 		"layout (location = 0) in vec3 aPos;\n"
 		"void main()\n"
@@ -23,12 +28,12 @@ private:
 	GLuint create_shader_program(const std::string& vertex_shader, const std::string& fragment_shader);
 public:
 
-	GLuint shader_program;
+	GLuint shader_id;
 
 	Shader();
 
-	Shader(std::string filepath);
+	Shader(std::string vert_filepath, std::string frag_filepath);
 
-
+	void use();
 	
 };

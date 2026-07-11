@@ -2,13 +2,49 @@
 
 //default constructor using pre-defined frag and vert shaders
 Shader::Shader() {
-	shader_program = create_shader_program(default_vertex_shader, default_fragment_shader);
+	shader_id = create_shader_program(default_vertex_shader, default_fragment_shader);
 }
 
+Shader::Shader(std::string vert_filepath, std::string frag_filepath) {
+
+	//empty strings for shaders to be loaded into
+	std::string vertex_source;
+	std::string fragment_source;
+
+	std::ifstream vert_file;
+	std::ifstream frag_file;
+
+	vert_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	frag_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+	//load entire file buffers into streams then into strings for use
+	try {
+		vert_file.open(vert_filepath);
+		frag_file.open(frag_filepath);
+		std::stringstream vert_stream, frag_stream;
+
+		vert_stream << vert_file.rdbuf();
+		frag_stream << frag_file.rdbuf();
+
+		vert_file.close();
+		frag_file.close();
+
+		vertex_source = vert_stream.str();
+		fragment_source = frag_stream.str();
+
+	}
+	catch (std::ifstream::failure e) {
+		std::cout << "File read error" << std::endl;
+	}
+
+	shader_id = create_shader_program(vertex_source, fragment_source);
+}
 
 GLuint Shader::create_shader_program(const std::string& vertex_shader_source, const std::string& fragment_shader_source) {
 	GLuint shader;
 
+	std::cout << vertex_shader_source << std::endl;
+	std::cout << " frag" <<  fragment_shader_source << std::endl;
 	//load vertex shader into uint 
 	GLuint vertex_shader;
 	const char* raw_vert_source = vertex_shader_source.c_str();
@@ -61,4 +97,9 @@ GLuint Shader::create_shader_program(const std::string& vertex_shader_source, co
 	glDeleteShader(fragment_shader);
 
 	return shader;
+}
+
+
+void Shader::use() {
+	glUseProgram(shader_id);
 }
