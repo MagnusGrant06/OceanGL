@@ -1,12 +1,11 @@
 #include "Renderer.hpp"
-#include "MeshCreator.hpp"
 
 #include <iostream>
 
 
 int Renderer::render_window() {
 
-    MeshCreator mesh;
+   // MeshCreator mesh;
 
     //create initial window context
     glfwInit();
@@ -34,16 +33,17 @@ int Renderer::render_window() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window.get(), framebuffer_size_callback);
 
-    mesh.create_triangle();
-
+    //mesh.create_triangle();
+    Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
+    shark_mesh.printMeshData();
     //primary draw loop
     while (!glfwWindowShouldClose(window.get())) {
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        mesh.draw_triangle();
-
+       // mesh.draw_triangle();
+        shark_mesh.draw_mesh();
         glfwSwapBuffers(window.get());
         glfwPollEvents();
 

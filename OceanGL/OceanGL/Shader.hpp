@@ -34,6 +34,14 @@ public:
 
 	Shader(std::string vert_filepath, std::string frag_filepath);
 
+	Shader(const Shader&) = delete;
+	Shader& operator=(const Shader&) = delete;
+
+	Shader(Shader&& other) noexcept;
+	Shader& operator=(Shader&&) noexcept;
+
+	~Shader();
+
 	void use();
 	
 };

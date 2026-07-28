@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="OceanGL/OceanGL.vcxproj" />
+  <Project Path="OceanGL/OceanGL.vcxproj" Id="96d0e737-3f66-4b65-81b9-869b9ca12f3e" />
 </Solution>

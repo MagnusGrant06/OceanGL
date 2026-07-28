@@ -3,6 +3,8 @@
 //default constructor using pre-defined frag and vert shaders
 Shader::Shader() {
 	shader_id = create_shader_program(default_vertex_shader, default_fragment_shader);
+	std::cout << default_vertex_shader << std::endl;
+	std::cout << default_fragment_shader << std::endl;
 }
 
 Shader::Shader(std::string vert_filepath, std::string frag_filepath) {
@@ -43,8 +45,6 @@ Shader::Shader(std::string vert_filepath, std::string frag_filepath) {
 GLuint Shader::create_shader_program(const std::string& vertex_shader_source, const std::string& fragment_shader_source) {
 	GLuint shader;
 
-	std::cout << vertex_shader_source << std::endl;
-	std::cout << " frag" <<  fragment_shader_source << std::endl;
 	//load vertex shader into uint 
 	GLuint vertex_shader;
 	const char* raw_vert_source = vertex_shader_source.c_str();
@@ -98,6 +98,28 @@ GLuint Shader::create_shader_program(const std::string& vertex_shader_source, co
 
 	return shader;
 }
+
+Shader::Shader(Shader&& other) noexcept : shader_id(other.shader_id) {
+	other.shader_id = 0;
+}
+
+Shader& Shader::operator=(Shader&& other) noexcept {
+
+	if (this != &other) {
+
+		glDeleteShader(shader_id);
+
+		shader_id = other.shader_id;
+		other.shader_id = 0;
+	}
+
+	return *this;
+}
+
+Shader::~Shader() {
+	glDeleteShader(shader_id);
+}
+
 
 
 void Shader::use() {
