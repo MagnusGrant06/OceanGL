@@ -1,8 +1,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "Mesh.hpp"
+#include <glm/glm.hpp>
 
 #include <memory>
+
+#include "Mesh.hpp"
+#include "Camera.hpp"
 
 //custom deleter to use when creating unique_ptr on glfw window
 struct GLFWwindow_deleter {

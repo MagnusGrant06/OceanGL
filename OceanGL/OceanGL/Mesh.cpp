@@ -70,8 +70,6 @@ void Mesh::load_from_file(const std::string& filepath) {
 void Mesh::build_mesh_object() {
 	if (vao != 0) return;
 
-	if (vao != 0) return;
-
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ibo);
@@ -97,19 +95,30 @@ void Mesh::build_mesh_object() {
 
 }
 
-void Mesh::draw_mesh() {
-	if (vao == 0) return;
-
-	shader.use();
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-}
 
 Mesh::~Mesh() {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ibo);
 	vao = 0;
+}
+
+void Mesh::draw_mesh() {
+	if (vao == 0) return;
+
+	shader.use();
+
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+}
+
+Shader& Mesh::get_shader() {
+	return shader;
+}
+
+glm::mat4 Mesh::get_model_matrix() {
+	glm::mat4 model = glm::mat4(1.0f);
+	return model;
 }
 
 void Mesh::printMeshData() {

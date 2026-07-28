@@ -3,8 +3,6 @@
 //default constructor using pre-defined frag and vert shaders
 Shader::Shader() {
 	shader_id = create_shader_program(default_vertex_shader, default_fragment_shader);
-	std::cout << default_vertex_shader << std::endl;
-	std::cout << default_fragment_shader << std::endl;
 }
 
 Shader::Shader(std::string vert_filepath, std::string frag_filepath) {
@@ -96,18 +94,21 @@ GLuint Shader::create_shader_program(const std::string& vertex_shader_source, co
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 
+
 	return shader;
 }
 
+//move constructor to safely transfer raw gluints
 Shader::Shader(Shader&& other) noexcept : shader_id(other.shader_id) {
 	other.shader_id = 0;
 }
 
+//move assignment constructor to safely transfer raw gluints
 Shader& Shader::operator=(Shader&& other) noexcept {
 
 	if (this != &other) {
 
-		glDeleteShader(shader_id);
+		glDeleteProgram(shader_id);
 
 		shader_id = other.shader_id;
 		other.shader_id = 0;
@@ -117,10 +118,15 @@ Shader& Shader::operator=(Shader&& other) noexcept {
 }
 
 Shader::~Shader() {
-	glDeleteShader(shader_id);
+	glDeleteProgram(shader_id);
 }
 
 
+//default method to set matrices such as view, model in shader
+void Shader::set_mat4(const std::string& name, const glm::mat4& mat) {
+	GLint location = glGetUniformLocation(shader_id, name.c_str());
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+}
 
 void Shader::use() {
 	glUseProgram(shader_id);

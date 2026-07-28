@@ -14,7 +14,7 @@ struct Vertex {
 class Mesh {
 
 private:
-	GLuint vao, vbo, ibo;
+	GLuint vao, vbo, ibo = 0;
 
 	Shader shader;
 
@@ -31,6 +31,10 @@ public:
 	Mesh(const std::string& filename, Shader shader);
 
 	~Mesh();
+
+	Shader& get_shader();
+
+	glm::mat4 get_model_matrix();
 
 	void draw_mesh();
 

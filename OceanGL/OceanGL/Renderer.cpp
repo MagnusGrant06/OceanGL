@@ -32,23 +32,38 @@ int Renderer::render_window() {
     //set size of viewport
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window.get(), framebuffer_size_callback);
+    glEnable(GL_DEPTH_TEST);
 
-    //mesh.create_triangle();
+
+    Camera camera;
+
+    glm::mat4 proj = glm::perspective(
+        glm::radians(45.0f),                          
+        (float)800 / (float)600, 
+        0.1f,                                          
+        100.0f                                         
+    );
+
     Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
-    shark_mesh.printMeshData();
+
     //primary draw loop
     while (!glfwWindowShouldClose(window.get())) {
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
        // mesh.draw_triangle();
+        shark_mesh.get_shader().use();
+        shark_mesh.get_shader().set_mat4("view", camera.get_view_matrix());
+        shark_mesh.get_shader().set_mat4("proj", proj);
+        shark_mesh.get_shader().set_mat4("model", shark_mesh.get_model_matrix());
         shark_mesh.draw_mesh();
+
         glfwSwapBuffers(window.get());
         glfwPollEvents();
 
     }
-
+    std::cout << "after finishing " << glGetError() << std::endl;
     glfwTerminate();
     return 1;
 }
