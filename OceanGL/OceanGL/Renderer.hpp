@@ -4,18 +4,9 @@
 
 #include <memory>
 
+#include "GLFWDeleter.hpp"
 #include "Mesh.hpp"
 #include "Camera.hpp"
-
-//custom deleter to use when creating unique_ptr on glfw window
-struct GLFWwindow_deleter {
-
-    void operator()(GLFWwindow* window) {
-        glfwDestroyWindow(window);
-    }
-};
-
-using GLFWwindow_ptr = std::unique_ptr<GLFWwindow, GLFWwindow_deleter>;
 
 class Renderer {
 public:
