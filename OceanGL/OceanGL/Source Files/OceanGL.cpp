@@ -10,7 +10,7 @@
 
 int main()
 {
-	std::unique_ptr<Renderer> renderer;
+	std::unique_ptr<Renderer> renderer = std::make_unique<Renderer>();
 
 	if (!renderer->render_window()) {
 		std::cout << "Could not initialize window" << std::endl;

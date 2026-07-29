@@ -14,9 +14,9 @@ int Renderer::render_window() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     //custom window ptr object to safely handle window creation and deletion
-    GLFWwindow_ptr window(glfwCreateWindow(800, 600, "OceanGL", NULL, NULL));
+    GLFWwindow_ptr window(glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "OceanGL", NULL, NULL));
 
-    if (window == NULL) {
+    if (!window) {
         std::cout << "Failed to create window" << std::endl;
         glfwTerminate();
         return 0;
@@ -30,19 +30,12 @@ int Renderer::render_window() {
     }
 
     //set size of viewport
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     glfwSetFramebufferSizeCallback(window.get(), framebuffer_size_callback);
     glEnable(GL_DEPTH_TEST);
 
 
     Camera camera;
-
-    glm::mat4 proj = glm::perspective(
-        glm::radians(90.0f),                          
-        (float)800 / (float)600, 
-        0.1f,                                          
-        100.0f                                         
-    );
 
     Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
 
@@ -52,15 +45,18 @@ int Renderer::render_window() {
     //primary draw loop
     while (!glfwWindowShouldClose(window.get())) {
         
+        //calculate physics process timings
         float current_frame = glfwGetTime();
         delta_time = current_frame - last_frame;
         last_frame = current_frame;
 
         camera.process_input(window.get(), delta_time);
 
+        //accept mouse input
         glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetWindowUserPointer(window.get(), &camera);
 
+        //small captureless lambda to use as function pointer to mouse input calcs
         glfwSetCursorPosCallback(window.get(), [](GLFWwindow* lambda_window, double xpos, double ypos) {
             auto* self = static_cast<Camera*>(glfwGetWindowUserPointer(lambda_window));
             self->process_mouse_input(xpos, ypos);
@@ -69,7 +65,6 @@ int Renderer::render_window() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-       // mesh.draw_triangle();
         shark_mesh.get_shader().use();
         shark_mesh.get_shader().set_mat4("view", camera.get_view_matrix());
         shark_mesh.get_shader().set_mat4("proj", proj);

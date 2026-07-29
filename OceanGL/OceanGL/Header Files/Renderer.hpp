@@ -19,4 +19,14 @@ public:
     int render_window();
 private:
 
+    int WINDOW_WIDTH = 800;
+    int WINDOW_HEIGHT = 600;
+
+    glm::mat4 proj = glm::perspective(
+        glm::radians(90.0f),
+        static_cast<float>(WINDOW_WIDTH) / static_cast<float>(WINDOW_HEIGHT),
+        0.1f,
+        100.0f
+    );
+
 };

@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glfw\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glfw\include;$(SolutionDir)external\glad\include;$(SolutionDir)external\glm;$(SolutionDir)OceanGL\Header Files</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,20 +131,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\external\glad\src\glad.c" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Mesh.hpp" />
-    <ClCompile Include="MeshCreator.cpp" />
-    <ClCompile Include="MeshCreator.hpp" />
-    <ClCompile Include="OceanGL.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Shader.hpp" />
+    <ClCompile Include="Source Files\Camera.cpp" />
+    <ClCompile Include="Source Files\Mesh.cpp" />
+    <ClCompile Include="Header Files\Mesh.hpp" />
+    <ClCompile Include="Source Files\MeshCreator.cpp" />
+    <ClCompile Include="Header Files\MeshCreator.hpp" />
+    <ClCompile Include="Source Files\OceanGL.cpp" />
+    <ClCompile Include="Source Files\Renderer.cpp" />
+    <ClCompile Include="Source Files\Shader.cpp" />
+    <ClCompile Include="Header Files\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="GLFWDeleter.hpp" />
-    <ClInclude Include="Renderer.hpp" />
+    <ClInclude Include="Header Files\Camera.hpp" />
+    <ClInclude Include="Header Files\GLFWDeleter.hpp" />
+    <ClInclude Include="Header Files\Renderer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
