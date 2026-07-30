@@ -30,13 +30,17 @@ public:
 
 	Mesh(const std::string& filename, Shader shader);
 
+	Mesh(const Mesh&) = delete;
+	Mesh& operator=(const Mesh&) = delete;
+
+	Mesh(Mesh&& other) noexcept;
+	Mesh& operator=(Mesh&&) noexcept;
+
 	~Mesh();
 
-	Shader& get_shader();
+	const Shader& get_shader() const;
 
-	glm::mat4 get_model_matrix();
-
-	void draw_mesh();
+	void draw_mesh() const;
 
 	void printMeshData();
 };

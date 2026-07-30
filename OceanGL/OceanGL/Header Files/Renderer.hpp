@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "GLFWDeleter.hpp"
-#include "Mesh.hpp"
 #include "Camera.hpp"
+#include "Scene/PlayerCharacter.hpp"
 
 class Renderer {
 public:

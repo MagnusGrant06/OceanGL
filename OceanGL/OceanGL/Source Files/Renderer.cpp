@@ -38,13 +38,15 @@ int Renderer::render_window() {
     Camera camera;
 
     Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
+    PlayerCharacter player(std::move(shark_mesh), glm::mat4(1.0f));
 
+    std::cout << "after creation " << glGetError() << std::endl;
     float delta_time = 0.0f;
     float last_frame = 0.0f;
-
+    std::cout << "after drawing" << glGetError() << std::endl;
     //primary draw loop
     while (!glfwWindowShouldClose(window.get())) {
-        
+
         //calculate physics process timings
         float current_frame = glfwGetTime();
         delta_time = current_frame - last_frame;
@@ -65,12 +67,9 @@ int Renderer::render_window() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shark_mesh.get_shader().use();
-        shark_mesh.get_shader().set_mat4("view", camera.get_view_matrix());
-        shark_mesh.get_shader().set_mat4("proj", proj);
-        shark_mesh.get_shader().set_mat4("model", glm::rotate(shark_mesh.get_model_matrix(), (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0,0,1)));
-        shark_mesh.draw_mesh();
-
+        player.update(delta_time);
+        player.draw(camera.get_view_matrix(), proj);
+       
         glfwSwapBuffers(window.get());
         glfwPollEvents();
 

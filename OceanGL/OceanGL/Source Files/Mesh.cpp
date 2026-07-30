@@ -19,6 +19,10 @@ void Mesh::load_from_file(const std::string& filepath) {
 
 	std::vector<int> temp_indices;
 	std::ifstream file(filepath);
+	if (!file.is_open())
+	{
+		std::cout << "Failed to open file: " << filepath << std::endl;
+	}
 	std::string currentLine;
 
 	while (std::getline(file, currentLine)) {
@@ -96,7 +100,7 @@ void Mesh::build_mesh_object() {
 }
 
 
-Mesh::Mesh(Mesh&& other) noexcept : vbo(other.vbo), vao(other.vao), ibo(other.ibo) {
+Mesh::Mesh(Mesh&& other) noexcept : shader(std::move(other.shader)), vertices(other.vertices), indices(other.indices), vbo(other.vbo), vao(other.vao), ibo(other.ibo) {
 	other.vbo = 0;
 	other.vao = 0;
 	other.ibo = 0;
@@ -130,7 +134,7 @@ Mesh::~Mesh() {
 	vao = 0;
 }
 
-void Mesh::draw_mesh() {
+void Mesh::draw_mesh() const{
 	if (vao == 0) return;
 
 	shader.use();
@@ -139,15 +143,8 @@ void Mesh::draw_mesh() {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-Shader& Mesh::get_shader() {
+const Shader& Mesh::get_shader() const {
 	return shader;
-}
-
-glm::mat4 Mesh::get_model_matrix() {
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0,1,0));
-	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1, 0, 0));
-	return model;
 }
 
 void Mesh::printMeshData() {

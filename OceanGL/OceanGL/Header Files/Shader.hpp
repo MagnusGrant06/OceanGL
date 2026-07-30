@@ -51,8 +51,8 @@ public:
 	~Shader();
 
 	
-	void set_mat4(const std::string& name, const glm::mat4& mat);
+	void set_mat4(const std::string& name, const glm::mat4& mat) const;
 
-	void use();
+	void use() const;
 	
 };

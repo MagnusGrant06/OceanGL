@@ -123,11 +123,11 @@ Shader::~Shader() {
 
 
 //default method to set matrices such as view, model in shader
-void Shader::set_mat4(const std::string& name, const glm::mat4& mat) {
+void Shader::set_mat4(const std::string& name, const glm::mat4& mat) const {
 	GLint location = glGetUniformLocation(shader_id, name.c_str());
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void Shader::use() {
+void Shader::use() const {
 	glUseProgram(shader_id);
 }

@@ -139,13 +139,19 @@
     <ClCompile Include="Header Files\MeshCreator.hpp" />
     <ClCompile Include="Source Files\OceanGL.cpp" />
     <ClCompile Include="Source Files\Renderer.cpp" />
+    <ClCompile Include="Source Files\Scene\DynamicObject.cpp" />
+    <ClCompile Include="Source Files\Scene\PlayerCharacter.cpp" />
+    <ClCompile Include="Source Files\Scene\StaticObject.cpp" />
     <ClCompile Include="Source Files\Shader.cpp" />
     <ClCompile Include="Header Files\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Camera.hpp" />
+    <ClInclude Include="Header Files\Scene\PlayerCharacter.hpp" />
+    <ClInclude Include="Header Files\Scene\DynamicObject.hpp" />
     <ClInclude Include="Header Files\GLFWDeleter.hpp" />
     <ClInclude Include="Header Files\Renderer.hpp" />
+    <ClInclude Include="Header Files\Scene\StaticObject.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
