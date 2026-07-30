@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -5,8 +7,8 @@
 #include <memory>
 
 #include "GLFWDeleter.hpp"
-#include "Camera.hpp"
 #include "Scene/PlayerCharacter.hpp"
+#include "Scene/Scene.hpp"
 
 class Renderer {
 public:

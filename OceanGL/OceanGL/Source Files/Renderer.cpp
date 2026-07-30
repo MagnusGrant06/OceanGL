@@ -5,8 +5,6 @@
 
 int Renderer::render_window() {
 
-   // MeshCreator mesh;
-
     //create initial window context
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -34,16 +32,18 @@ int Renderer::render_window() {
     glfwSetFramebufferSizeCallback(window.get(), framebuffer_size_callback);
     glEnable(GL_DEPTH_TEST);
 
+    Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
+
+    PlayerCharacter player(std::move(shark_mesh), glm::mat4(1.0f));
 
     Camera camera;
 
-    Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
-    PlayerCharacter player(std::move(shark_mesh), glm::mat4(1.0f));
+    Scene scene(proj, camera);
 
-    std::cout << "after creation " << glGetError() << std::endl;
+    scene.add_object(std::make_unique<PlayerCharacter>(std::move(player)));
     float delta_time = 0.0f;
     float last_frame = 0.0f;
-    std::cout << "after drawing" << glGetError() << std::endl;
+
     //primary draw loop
     while (!glfwWindowShouldClose(window.get())) {
 
@@ -67,8 +67,8 @@ int Renderer::render_window() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        player.update(delta_time);
-        player.draw(camera.get_view_matrix(), proj);
+        scene.update(delta_time);
+        scene.draw();
        
         glfwSwapBuffers(window.get());
         glfwPollEvents();

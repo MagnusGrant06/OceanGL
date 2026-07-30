@@ -53,6 +53,6 @@ void Camera::process_mouse_input(double xpos, double ypos) {
 	cam_front = calculate_direction(yaw, pitch);
 }
 
-glm::mat4 Camera::get_view_matrix() {
+const glm::mat4 Camera::get_view_matrix() const {
 	return glm::lookAt(cam_pos, cam_pos + cam_front, up_vec);
 }

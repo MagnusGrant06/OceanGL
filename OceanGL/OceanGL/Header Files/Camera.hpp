@@ -1,3 +1,6 @@
+#pragma once
+
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
@@ -25,6 +28,6 @@ public:
 
 	void process_mouse_input(double xpos, double ypos);
 
-	glm::mat4 get_view_matrix();
+	const glm::mat4 get_view_matrix() const;
 
 };

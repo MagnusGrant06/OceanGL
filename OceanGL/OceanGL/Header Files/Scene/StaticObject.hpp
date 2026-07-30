@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SceneObject.hpp"
 
 //derived class for objects that will never interact with physics, that is their model matrix will never change
