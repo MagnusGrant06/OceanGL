@@ -96,6 +96,33 @@ void Mesh::build_mesh_object() {
 }
 
 
+Mesh::Mesh(Mesh&& other) noexcept : vbo(other.vbo), vao(other.vao), ibo(other.ibo) {
+	other.vbo = 0;
+	other.vao = 0;
+	other.ibo = 0;
+}
+
+Mesh& Mesh::operator=(Mesh&& other) noexcept {
+
+	if (this != &other) {
+
+		glDeleteVertexArrays(1, &vao);
+		glDeleteBuffers(1, &vbo);
+		glDeleteBuffers(1, &ibo);
+
+		vbo = other.vbo;
+		vao = other.vao;
+		ibo = other.ibo;
+
+		other.vbo = 0;
+		other.vao = 0;
+		other.ibo = 0;
+
+	}
+
+	return *this;
+}
+
 Mesh::~Mesh() {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);

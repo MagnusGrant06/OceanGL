@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\external\glad\src\glad.c" />
+    <ClCompile Include="Header Files\Scene\SceneObject.hpp" />
     <ClCompile Include="Source Files\Camera.cpp" />
     <ClCompile Include="Source Files\Mesh.cpp" />
     <ClCompile Include="Header Files\Mesh.hpp" />

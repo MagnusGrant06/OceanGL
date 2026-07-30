@@ -45,6 +45,9 @@
     <ClCompile Include="Source Files\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Header Files\Scene\SceneObject.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Renderer.hpp">
