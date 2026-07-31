@@ -2,7 +2,7 @@
 #include "Scene/SceneObject.hpp"
 #include "Scene/DynamicObject.hpp"
 
-Scene::Scene(glm::mat4 proj, Camera& cam) : proj(proj), cam(cam) {}
+Scene::Scene(glm::mat4 proj, Camera& cam, GLFWwindow& window) : proj(proj), cam(cam), window(window) {}
 
 void Scene::draw() const {
 	for (auto& obj : objects) {
@@ -21,3 +21,7 @@ void Scene::update(float delta) {
 void Scene::add_object(std::unique_ptr<SceneObject> obj) {
 	objects.push_back(std::move(obj));
 }
+
+const Camera& Scene::get_camera() const { return cam; }
+
+GLFWwindow& Scene::get_window() const { return window; }

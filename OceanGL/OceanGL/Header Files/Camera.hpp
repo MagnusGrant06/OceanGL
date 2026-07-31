@@ -30,4 +30,6 @@ public:
 
 	const glm::mat4 get_view_matrix() const;
 
+	const glm::mat4 get_player_matrix() const;
+
 };

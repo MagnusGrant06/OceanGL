@@ -2,19 +2,6 @@
 
 Camera::Camera() : cam_pos(glm::vec3(0.0f, 0.0f, 10.0f)), cam_front(glm::vec3(0.0f, 0.0f, -1.0f)), up_vec(glm::vec3(0.0f, 1.0f, 0.0f)) {}
 
-void Camera::process_input(GLFWwindow* window, float delta) {
-	const float camera_speed = 2.5f * delta;
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cam_pos += camera_speed * cam_front;
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cam_pos -= camera_speed * cam_front;
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		cam_pos -= glm::normalize(glm::cross(cam_front, up_vec)) * camera_speed;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		cam_pos += glm::normalize(glm::cross(cam_front, up_vec)) * camera_speed;
-}
-
 glm::vec3 Camera::calculate_direction(float cam_yaw, float cam_pitch) {
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -56,3 +43,5 @@ void Camera::process_mouse_input(double xpos, double ypos) {
 const glm::mat4 Camera::get_view_matrix() const {
 	return glm::lookAt(cam_pos, cam_pos + cam_front, up_vec);
 }
+
+const glm::vec3 Camera::get_look_direction() const { return cam_front; }
