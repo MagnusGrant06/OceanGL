@@ -34,13 +34,13 @@ int Renderer::render_window() {
 
     Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
 
-    PlayerCharacter player(std::move(shark_mesh), glm::mat4(1.0f));
-
+    Mesh shark_mesh2(std::string("res/assets/shark2f.obj"));
+    TestMesh test(std::move(shark_mesh2), glm::mat4(1.0f));
     Camera camera;
 
-    Scene scene(proj, camera);
+    Scene scene(proj, *window.get(), std::make_unique<PlayerCharacter>(std::move(shark_mesh), glm::mat4(1.0f)));
 
-    scene.add_object(std::make_unique<PlayerCharacter>(std::move(player)));
+    scene.add_object(std::make_unique<TestMesh>(std::move(test)));
     float delta_time = 0.0f;
     float last_frame = 0.0f;
 
@@ -48,21 +48,9 @@ int Renderer::render_window() {
     while (!glfwWindowShouldClose(window.get())) {
 
         //calculate physics process timings
-        float current_frame = glfwGetTime();
+        float current_frame = static_cast<float>(glfwGetTime());
         delta_time = current_frame - last_frame;
         last_frame = current_frame;
-
-        camera.process_input(window.get(), delta_time);
-
-        //accept mouse input
-        glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        glfwSetWindowUserPointer(window.get(), &camera);
-
-        //small captureless lambda to use as function pointer to mouse input calcs
-        glfwSetCursorPosCallback(window.get(), [](GLFWwindow* lambda_window, double xpos, double ypos) {
-            auto* self = static_cast<Camera*>(glfwGetWindowUserPointer(lambda_window));
-            self->process_mouse_input(xpos, ypos);
-        });
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -65,9 +65,9 @@ void Mesh::load_from_file(const std::string& filepath) {
 	}
 
 	//loop through temp lists and create list of vertex to lookup in build
-	for (int i = 0; i < temp_indices.size() - 2; i += 3) {
+	for (size_t i = 0; i < temp_indices.size() - 2; i += 3) {
 		vertices.push_back(Vertex(temp_positions[temp_indices[i]], temp_normals[temp_indices[i + 2]]));
-		indices.push_back(vertices.size() - 1);
+		indices.push_back(static_cast<int>(vertices.size()) - 1);
 	}
 }
 
@@ -140,7 +140,7 @@ void Mesh::draw_mesh() const{
 	shader.use();
 
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 }
 
 const Shader& Mesh::get_shader() const {
@@ -151,7 +151,7 @@ void Mesh::printMeshData() {
 	for (int index : indices) {
 		std::cout << "Index: " << index << std::endl;
 	}
-	for (Vertex v : vertices) {
+	for (Vertex& v : vertices) {
 		std::cout << "Vertex Position: " << v.position.x << ", " << v.position.y << ", " << v.position.z << std::endl;
 		std::cout << "Vertex Normal: " << v.normal.x << ", " << v.normal.y << ", " << v.normal.z << std::endl;
 	}

@@ -1,6 +1,14 @@
 #include "Camera.hpp"
+#include "Scene/Scene.hpp"
 
 Camera::Camera() : cam_pos(glm::vec3(0.0f, 0.0f, 10.0f)), cam_front(glm::vec3(0.0f, 0.0f, -1.0f)), up_vec(glm::vec3(0.0f, 1.0f, 0.0f)) {}
+
+
+void Camera::update(float delta, Scene& scene) {
+	glm::vec3 position = scene.get_player_position() - cam_front * 1.0f + glm::vec3(0.0f, 1.0f, 0.0f);
+	cam_pos = position;
+}
+
 
 glm::vec3 Camera::calculate_direction(float cam_yaw, float cam_pitch) {
 	glm::vec3 direction;
@@ -19,8 +27,8 @@ void Camera::process_mouse_input(double xpos, double ypos) {
 		first_mouse = false;
 	}
 
-	float xoffset = xpos - last_x;
-	float yoffset = ypos - last_y;
+	double xoffset = xpos - last_x;
+	double yoffset = ypos - last_y;
 	last_x = xpos;
 	last_y = ypos;
 
@@ -28,8 +36,8 @@ void Camera::process_mouse_input(double xpos, double ypos) {
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 
-	yaw += xoffset;
-	pitch -= yoffset;
+	yaw += static_cast<float>(xoffset);
+	pitch -= static_cast<float>(yoffset);
 
 	//clamp pitch values if out of range
 	if (pitch > 89.0f)
@@ -40,8 +48,9 @@ void Camera::process_mouse_input(double xpos, double ypos) {
 	cam_front = calculate_direction(yaw, pitch);
 }
 
-const glm::mat4 Camera::get_view_matrix() const {
-	return glm::lookAt(cam_pos, cam_pos + cam_front, up_vec);
+
+const glm::mat4 Camera::get_view_matrix(glm::vec3 player_position) const {
+	return glm::lookAt(cam_pos, player_position + cam_front, up_vec);
 }
 
 const glm::vec3 Camera::get_look_direction() const { return cam_front; }

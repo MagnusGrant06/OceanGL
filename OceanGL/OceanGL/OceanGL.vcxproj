@@ -152,6 +152,7 @@
     <ClInclude Include="Header Files\GLFWDeleter.hpp" />
     <ClInclude Include="Header Files\Renderer.hpp" />
     <ClInclude Include="Header Files\Scene\StaticObject.hpp" />
+    <ClInclude Include="Header Files\Scene\TestMesh.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

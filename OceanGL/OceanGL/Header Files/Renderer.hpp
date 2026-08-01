@@ -9,6 +9,7 @@
 #include "GLFWDeleter.hpp"
 #include "Scene/PlayerCharacter.hpp"
 #include "Scene/Scene.hpp"
+#include "Scene/TestMesh.hpp"
 
 class Renderer {
 public:
