@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <glm/glm.hpp>
 
 #include "Mesh.hpp"
@@ -7,10 +9,10 @@
 //highest level class for any object within the scene, all to be drawn dynamically
 class SceneObject {
 protected:
-	Mesh mesh;
+	std::shared_ptr<Mesh> mesh;
 	glm::mat4 model_matrix;
 
-	SceneObject(Mesh mesh, glm::mat4 model_matrix) : mesh(std::move(mesh)), model_matrix(model_matrix) {};
+	SceneObject(std::shared_ptr<Mesh> mesh, glm::mat4 model_matrix) : mesh(std::move(mesh)), model_matrix(model_matrix) {};
 
 public:
 	virtual ~SceneObject() = default;

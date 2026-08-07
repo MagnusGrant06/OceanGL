@@ -4,11 +4,15 @@
 Mesh::Mesh(const std::string& filepath) {
 	load_from_file(filepath);
 	build_mesh_object();
-	shader = Shader();
+	shader = std::make_shared<Shader>();
 }
 
-Mesh::Mesh(const std::string& filepath, Shader shader) : shader(std::move(shader)) {
+Mesh::Mesh(const std::string& filepath, std::shared_ptr<Shader> shader) : shader(std::move(shader)) {
 	load_from_file(filepath);
+	build_mesh_object();
+}
+
+Mesh::Mesh(const std::vector<Vertex> vertices, const std::vector<int> indices, std::shared_ptr<Shader> shader) : vertices(vertices), indices(indices), shader(std::move(shader)) {
 	build_mesh_object();
 }
 
@@ -96,7 +100,6 @@ void Mesh::build_mesh_object() {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
-
 }
 
 
@@ -137,14 +140,14 @@ Mesh::~Mesh() {
 void Mesh::draw_mesh() const{
 	if (vao == 0) return;
 
-	shader.use();
+	shader->use();
 
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 }
 
 const Shader& Mesh::get_shader() const {
-	return shader;
+	return *shader;
 }
 
 void Mesh::printMeshData() {

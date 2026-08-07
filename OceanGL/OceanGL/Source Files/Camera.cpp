@@ -5,7 +5,7 @@ Camera::Camera() : cam_pos(glm::vec3(0.0f, 0.0f, 10.0f)), cam_front(glm::vec3(0.
 
 
 void Camera::update(float delta, Scene& scene) {
-	glm::vec3 position = scene.get_player_position() - cam_front * 1.0f + glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 position = scene.get_player_position() - cam_front * 2.0f + glm::vec3(1.0f, 1.0f, 0.0f);
 	cam_pos = position;
 }
 
@@ -50,7 +50,7 @@ void Camera::process_mouse_input(double xpos, double ypos) {
 
 
 const glm::mat4 Camera::get_view_matrix(glm::vec3 player_position) const {
-	return glm::lookAt(cam_pos, player_position + cam_front, up_vec);
+	return glm::lookAt(cam_pos, player_position + cam_front * 10.0f, up_vec);
 }
 
 const glm::vec3 Camera::get_look_direction() const { return cam_front; }

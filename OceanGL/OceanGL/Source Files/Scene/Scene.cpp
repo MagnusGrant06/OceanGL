@@ -2,6 +2,7 @@
 #include "Scene/SceneObject.hpp"
 #include "Scene/DynamicObject.hpp"
 #include "Scene/PlayerCharacter.hpp"
+#include "Scene/TestMesh.hpp"
 
 Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter> player) : proj(proj), window(window), player(std::move(player)) {
 
@@ -15,6 +16,8 @@ Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter
 		self->process_mouse_input(xpos, ypos);
 		});
 
+	auto cube_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"));
+	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f)));
 }
 
 void Scene::draw() const {

@@ -32,21 +32,13 @@ int Renderer::render_window() {
     glfwSetFramebufferSizeCallback(window.get(), framebuffer_size_callback);
     glEnable(GL_DEPTH_TEST);
 
-    Mesh shark_mesh(std::string("res/assets/shark2f.obj"));
-
-    Mesh shark_mesh2(std::string("res/assets/shark2f.obj"));
-    TestMesh test(std::move(shark_mesh2), glm::mat4(1.0f));
-    Camera camera;
-
-    Scene scene(proj, *window.get(), std::make_unique<PlayerCharacter>(std::move(shark_mesh), glm::mat4(1.0f)));
-
-    scene.add_object(std::make_unique<TestMesh>(std::move(test)));
+    std::shared_ptr<Mesh> player_mesh = std::make_shared<Mesh>(std::string("res/assets/shark2f.obj"));
+    Scene scene(proj, *window.get(), std::make_unique<PlayerCharacter>(player_mesh, glm::mat4(1.0f)));
     float delta_time = 0.0f;
     float last_frame = 0.0f;
 
     //primary draw loop
     while (!glfwWindowShouldClose(window.get())) {
-
         //calculate physics process timings
         float current_frame = static_cast<float>(glfwGetTime());
         delta_time = current_frame - last_frame;
@@ -57,7 +49,7 @@ int Renderer::render_window() {
 
         scene.update(delta_time);
         scene.draw();
-       
+
         glfwSwapBuffers(window.get());
         glfwPollEvents();
 
