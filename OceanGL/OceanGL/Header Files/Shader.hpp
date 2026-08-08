@@ -36,6 +36,8 @@ private:
 	
 
 	GLuint create_shader_program(const std::string& vertex_shader, const std::string& fragment_shader);
+
+	mutable std::unordered_map<std::string, GLuint> location_cache;
 public:
 
 	GLuint shader_id;
@@ -52,6 +54,7 @@ public:
 
 	~Shader();
 
+	const GLuint get_uniform_location(const std::string& name) const;
 	
 	void set_mat4(const std::string& name, const glm::mat4& mat) const;
 

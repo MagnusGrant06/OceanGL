@@ -121,16 +121,26 @@ Shader::~Shader() {
 	glDeleteProgram(shader_id);
 }
 
+const GLuint Shader::get_uniform_location(const std::string& name) const {
+
+	auto it = location_cache.find(name);
+	if (it != location_cache.end()) {
+		return it->second;
+	}
+
+	GLuint location = glGetUniformLocation(shader_id, name.c_str());
+	location_cache.insert({ name, location });
+	return location;
+}
+
 
 //default method to set matrices such as view, model in shader
 void Shader::set_mat4(const std::string& name, const glm::mat4& mat) const {
-	GLint location = glGetUniformLocation(shader_id, name.c_str());
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+	glUniformMatrix4fv(get_uniform_location(name), 1, GL_FALSE, glm::value_ptr(mat));
 }
 
 void Shader::set_vec3(const std::string& name, const glm::vec3 vec) const {
-	GLint location = glGetUniformLocation(shader_id, name.c_str());
-	glUniform3fv(location, 1, glm::value_ptr(vec));
+	glUniform3fv(get_uniform_location(name), 1, glm::value_ptr(vec));
 }
 
 void Shader::use() const {
