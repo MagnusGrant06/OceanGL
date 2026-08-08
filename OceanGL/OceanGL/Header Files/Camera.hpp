@@ -34,5 +34,7 @@ public:
 
 	const glm::vec3 get_look_direction() const;
 
+	const glm::vec3 get_cam_pos() const;
+
 
 };

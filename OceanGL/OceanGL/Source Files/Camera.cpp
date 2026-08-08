@@ -1,11 +1,11 @@
 #include "Camera.hpp"
 #include "Scene/Scene.hpp"
 
-Camera::Camera() : cam_pos(glm::vec3(0.0f, 0.0f, 10.0f)), cam_front(glm::vec3(0.0f, 0.0f, -1.0f)), up_vec(glm::vec3(0.0f, 1.0f, 0.0f)) {}
+Camera::Camera() : cam_pos(glm::vec3(0.0f, 0.0f, 10.0f)), cam_front(glm::vec3(0.0f, 0.0f, -1.0f)), up_vec(glm::vec3(0.0f, 0.8f, 0.0f)) {}
 
 
 void Camera::update(float delta, Scene& scene) {
-	glm::vec3 position = scene.get_player_position() - cam_front * 2.0f + glm::vec3(1.0f, 1.0f, 0.0f);
+	glm::vec3 position = scene.get_player_position() - cam_front * 2.0f + glm::vec3(0.0f, 1.0f, 1.0f);
 	cam_pos = position;
 }
 
@@ -54,3 +54,5 @@ const glm::mat4 Camera::get_view_matrix(glm::vec3 player_position) const {
 }
 
 const glm::vec3 Camera::get_look_direction() const { return cam_front; }
+
+const glm::vec3 Camera::get_cam_pos() const { return cam_pos; }

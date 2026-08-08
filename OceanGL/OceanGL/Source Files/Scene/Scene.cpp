@@ -16,8 +16,25 @@ Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter
 		self->process_mouse_input(xpos, ypos);
 		});
 
-	auto cube_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"));
+	auto cube_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl","res/shaders/default_frag.glsl"));
+
+	cube_mesh->get_shader().use();
+	cube_mesh->get_shader().set_vec3("lightColor", light_color);
+	cube_mesh->get_shader().set_vec3("objectColor", object_color);
+	cube_mesh->get_shader().set_vec3("lightPos", light_pos);
+	cube_mesh->get_shader().set_vec3("viewPos", cam.get_look_direction());
+
+	auto light_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl", "res/shaders/light_frag.glsl"));
+
+	glm::mat4 light_model = glm::mat4(1.0f);
+	light_model = glm::translate(light_model, light_pos);
+	light_model = glm::scale(light_model, glm::vec3(0.2f));
+
 	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f)));
+	add_object(std::make_unique<TestMesh>(light_mesh, light_model));
+
+
+
 }
 
 void Scene::draw() const {

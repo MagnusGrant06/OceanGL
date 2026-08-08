@@ -1,6 +1,6 @@
 #include "Scene/PlayerCharacter.hpp"
 
-PlayerCharacter::PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model) : DynamicObject(std::move(mesh), model) {}
+PlayerCharacter::PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model) : DynamicObject(std::move(mesh), model) { model = glm::scale(model, glm::vec3(0.5f)); }
 
 void PlayerCharacter::draw(glm::mat4 view, glm::mat4 proj) const{
 	mesh->get_shader().use();
