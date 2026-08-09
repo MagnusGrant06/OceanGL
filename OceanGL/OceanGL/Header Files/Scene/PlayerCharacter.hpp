@@ -9,7 +9,7 @@ private:
 	glm::vec3 up_vec = glm::vec3(0.0f, 1.0f, 0.0f);
 public:
 
-	PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model_matrix);
+	PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model_matrix, Material mat);
 
 	void draw(glm::mat4 view, glm::mat4 proj) const override;
 

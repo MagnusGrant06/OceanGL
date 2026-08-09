@@ -8,7 +8,7 @@ class Scene;
 class DynamicObject : public SceneObject {
 
 protected:
-	DynamicObject(std::shared_ptr<Mesh> mesh, const glm::mat4 initial_model);
+	DynamicObject(std::shared_ptr<Mesh> mesh, const glm::mat4 initial_model, Material mat);
 public:
 	virtual void update(float delta, Scene& scene) = 0;
 	virtual const glm::mat4& get_model_matrix() const override;

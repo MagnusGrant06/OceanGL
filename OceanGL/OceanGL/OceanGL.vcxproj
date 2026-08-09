@@ -133,6 +133,8 @@
     <ClCompile Include="..\external\glad\src\glad.c" />
     <ClCompile Include="Header Files\Scene\SceneObject.hpp" />
     <ClCompile Include="Source Files\Camera.cpp" />
+    <ClCompile Include="Source Files\Scene\Light.cpp" />
+    <ClCompile Include="Source Files\Material.cpp" />
     <ClCompile Include="Source Files\Mesh.cpp" />
     <ClCompile Include="Header Files\Mesh.hpp" />
     <ClCompile Include="Source Files\OceanGL.cpp" />
@@ -146,6 +148,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Camera.hpp" />
+    <ClInclude Include="Header Files\Scene\Light.hpp" />
+    <ClInclude Include="Header Files\Material.hpp" />
     <ClInclude Include="Header Files\Scene\Scene.hpp" />
     <ClInclude Include="Header Files\Scene\PlayerCharacter.hpp" />
     <ClInclude Include="Header Files\Scene\DynamicObject.hpp" />

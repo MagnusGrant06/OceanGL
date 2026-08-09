@@ -4,7 +4,7 @@
 
 class TestMesh : public StaticObject {
 public:
-	TestMesh(std::shared_ptr<Mesh> mesh, glm::mat4 model) : StaticObject(std::move(mesh), model) {}
+	TestMesh(std::shared_ptr<Mesh> mesh, glm::mat4 model, Material mat) : StaticObject(std::move(mesh), model, mat) {}
 
 	void draw(glm::mat4 view, glm::mat4 proj) const override {
 		mesh->get_shader().use();

@@ -1,12 +1,12 @@
 #include "Scene/PlayerCharacter.hpp"
 
-PlayerCharacter::PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model) : DynamicObject(std::move(mesh), model) { model = glm::scale(model, glm::vec3(0.5f)); }
+PlayerCharacter::PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model, Material mat) : DynamicObject(std::move(mesh), model, mat) { model = glm::scale(model, glm::vec3(0.5f)); }
 
 void PlayerCharacter::draw(glm::mat4 view, glm::mat4 proj) const{
 	mesh->get_shader().use();
 	mesh->get_shader().set_mat4("view", view);
 	mesh->get_shader().set_mat4("proj", proj);
-	mesh->draw_mesh();
+	mesh->draw_mesh(); 
 }
 
 void PlayerCharacter::update(float delta, Scene& scene) {
@@ -25,6 +25,8 @@ void PlayerCharacter::update(float delta, Scene& scene) {
 	model_matrix = glm::translate(glm::mat4(1.0f), global_position) * orientation * correction;
 
 	mesh->get_shader().set_mat4("model", model_matrix);
+
+	mat.update(mesh->get_shader(), scene);
 }
 
 void PlayerCharacter::process_input(GLFWwindow* window, float delta, glm::vec3 look_direction) {
