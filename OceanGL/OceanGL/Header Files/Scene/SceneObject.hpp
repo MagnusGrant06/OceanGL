@@ -25,6 +25,8 @@ public:
 	SceneObject(SceneObject&&) noexcept = default;
 	SceneObject& operator=(SceneObject&&) noexcept = default;
 
-	virtual void draw(glm::mat4 view, glm::mat4 proj) const = 0;
+	virtual void draw(glm::mat4 view, glm::mat4 proj, glm::vec3 cam_pos) const = 0;
+
 	virtual const glm::mat4& get_model_matrix() const = 0;
+	virtual const Mesh& get_mesh() const = 0;
 };

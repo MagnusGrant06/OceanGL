@@ -2,10 +2,13 @@
 
 PlayerCharacter::PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model, Material mat) : DynamicObject(std::move(mesh), model, mat) { model = glm::scale(model, glm::vec3(0.5f)); }
 
-void PlayerCharacter::draw(glm::mat4 view, glm::mat4 proj) const{
+void PlayerCharacter::draw(glm::mat4 view, glm::mat4 proj, glm::vec3 cam_pos) const{
 	mesh->get_shader().use();
 	mesh->get_shader().set_mat4("view", view);
 	mesh->get_shader().set_mat4("proj", proj);
+	mesh->get_shader().set_vec3("viewPos", cam_pos);
+
+	mat.update(mesh->get_shader());
 	mesh->draw_mesh(); 
 }
 
@@ -26,7 +29,6 @@ void PlayerCharacter::update(float delta, Scene& scene) {
 
 	mesh->get_shader().set_mat4("model", model_matrix);
 
-	mat.update(mesh->get_shader(), scene);
 }
 
 void PlayerCharacter::process_input(GLFWwindow* window, float delta, glm::vec3 look_direction) {
@@ -47,3 +49,5 @@ glm::mat4 PlayerCharacter::follow_camera(const Camera& cam) {
 }
 
 const glm::vec3 PlayerCharacter::get_position() const { return global_position; }
+
+const Mesh& PlayerCharacter::get_mesh() const { return *mesh; }

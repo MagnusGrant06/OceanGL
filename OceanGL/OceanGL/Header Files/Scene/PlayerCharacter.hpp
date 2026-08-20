@@ -11,7 +11,7 @@ public:
 
 	PlayerCharacter(std::shared_ptr<Mesh> mesh, glm::mat4 model_matrix, Material mat);
 
-	void draw(glm::mat4 view, glm::mat4 proj) const override;
+	void draw(glm::mat4 view, glm::mat4 proj, glm::vec3 cam_pos) const override;
 
 	void update(float delta, Scene& scene) override;
 
@@ -20,4 +20,6 @@ public:
 	glm::mat4 follow_camera(const Camera& cam);
 
 	const glm::vec3 get_position() const;
+
+	const Mesh& get_mesh() const override;
 };

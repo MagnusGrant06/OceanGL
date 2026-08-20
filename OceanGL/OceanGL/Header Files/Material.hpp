@@ -13,5 +13,5 @@ class Material {
 public:
 	Material(glm::vec3 albedo, float specular, float shininess) : albedo(albedo), specular(specular), shininess(shininess) {}
 
-	void update(const Shader& shader, const Scene& scene);
+	void update(const Shader& shader) const;
 };

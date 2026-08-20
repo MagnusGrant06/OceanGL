@@ -38,10 +38,12 @@ Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter
 
 void Scene::draw() const {
 
-	player->draw(cam.get_view_matrix(get_player_position()), proj);
+	player->draw(cam.get_view_matrix(get_player_position()), proj, cam.get_cam_pos());
+	light.update(player->get_mesh().get_shader());
 
 	for (auto& obj : objects) {
-		obj->draw(cam.get_view_matrix(get_player_position()), proj);
+		obj->draw(cam.get_view_matrix(get_player_position()), proj, cam.get_cam_pos());
+		light.update(obj->get_mesh().get_shader());
 	}
 }
 

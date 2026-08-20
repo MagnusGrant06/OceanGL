@@ -129,6 +129,10 @@ const GLuint Shader::get_uniform_location(const std::string& name) const {
 	}
 
 	GLuint location = glGetUniformLocation(shader_id, name.c_str());
+	if (location == -1) {
+		std::cout << "Failed to load uniform " << name << std::endl;
+	}
+
 	location_cache.insert({ name, location });
 	return location;
 }
@@ -140,6 +144,7 @@ void Shader::set_mat4(const std::string& name, const glm::mat4& mat) const {
 }
 
 void Shader::set_vec3(const std::string& name, const glm::vec3 vec) const {
+	//std::cout << "setting uniform " << name << " : " << vec.x << " " << vec.y << " " << vec.z << std::endl;
 	glUniform3fv(get_uniform_location(name), 1, glm::value_ptr(vec));
 }
 
