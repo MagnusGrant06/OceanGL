@@ -60,6 +60,8 @@ public:
 
 	void set_vec3(const std::string& name, const glm::vec3 vec) const;
 
+	void set_float(const std::string& name, float flt) const;
+
 	void use() const;
 	
 };

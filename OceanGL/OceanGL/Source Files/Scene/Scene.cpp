@@ -16,21 +16,19 @@ Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter
 		self->process_mouse_input(xpos, ypos);
 		});
 
-	light = Light(glm::vec3(1.2f, 1.0f, 1.0f), glm::vec3(1.0f), glm::vec3(1.2f, 1.0f, 1.0f));
+	light = Light(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.2f, 1.0f, 1.0f));
 
 	auto cube_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl","res/shaders/default_frag.glsl"));
 
-	cube_mesh->get_shader().use();
 
-
-	auto light_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl", "res/shaders/light_frag.glsl"));
+	auto light_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl", "res/shaders/default_frag.glsl"));
 
 	glm::mat4 light_model = glm::mat4(1.0f);
 	light_model = glm::translate(light_model, light.get_position());
 	light_model = glm::scale(light_model, glm::vec3(0.2f));
 
-	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f), Material(glm::vec3(1.0f, 0.5f, 0.2f), 0.5f, 32.0f)));
-	add_object(std::make_unique<TestMesh>(light_mesh, light_model, Material(glm::vec3(1.0f), 1.0f, 1.0f)));
+	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f), Material(glm::vec3(0.0215, 0.1745, 0.0215), glm::vec3(0.07568, 0.61424, 0.07568), glm::vec3(0.633, 0.727811, 0.633), 70.0f)));
+	add_object(std::make_unique<TestMesh>(light_mesh, light_model, Material(light.get_ambient(), light.get_diffuse(), light.get_specular(), 0.0f)));
 
 
 
