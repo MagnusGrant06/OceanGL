@@ -134,23 +134,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\external\glad\src\glad.c" />
-    <ClCompile Include="Header Files\Scene\SceneObject.hpp" />
+    <ClInclude Include="Header Files\Scene\DirectionalLight.hpp" />
+    <ClInclude Include="Header Files\Scene\SceneObject.hpp" />
     <ClCompile Include="Source Files\Camera.cpp" />
-    <ClCompile Include="Source Files\Scene\Light.cpp" />
     <ClCompile Include="Source Files\Material.cpp" />
     <ClCompile Include="Source Files\Mesh.cpp" />
-    <ClCompile Include="Header Files\Mesh.hpp" />
+    <ClInclude Include="Header Files\Mesh.hpp" />
     <ClCompile Include="Source Files\OceanGL.cpp" />
     <ClCompile Include="Source Files\Renderer.cpp" />
+    <ClCompile Include="Source Files\Scene\DirectionalLight.cpp" />
     <ClCompile Include="Source Files\Scene\DynamicObject.cpp" />
     <ClCompile Include="Source Files\Scene\PlayerCharacter.cpp" />
+    <ClCompile Include="Source Files\Scene\PointLight.cpp" />
     <ClCompile Include="Source Files\Scene\Scene.cpp" />
     <ClCompile Include="Source Files\Scene\StaticObject.cpp" />
     <ClCompile Include="Source Files\Shader.cpp" />
-    <ClCompile Include="Header Files\Shader.hpp" />
+    <ClInclude Include="Header Files\Shader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Camera.hpp" />
+    <ClInclude Include="Header Files\Scene\PointLight.hpp" />
     <ClInclude Include="Header Files\Scene\Light.hpp" />
     <ClInclude Include="Header Files\Material.hpp" />
     <ClInclude Include="Header Files\Scene\Scene.hpp" />

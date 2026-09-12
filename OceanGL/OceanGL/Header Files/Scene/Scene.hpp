@@ -4,7 +4,8 @@
 #include <GLFW/glfw3.h>
 
 #include "../Camera.hpp"
-#include "Light.hpp"
+#include "PointLight.hpp"
+#include "DirectionalLight.hpp"
 
 #include <vector>
 #include <memory>
@@ -22,7 +23,8 @@ private:
 	glm::mat4 proj;
 	GLFWwindow& window;
 
-	Light light;
+	PointLight light;
+	DirectionalLight dirLight;
 
 public:
 

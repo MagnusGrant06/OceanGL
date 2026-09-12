@@ -16,7 +16,8 @@ Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter
 		self->process_mouse_input(xpos, ypos);
 		});
 
-	light = Light(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.2f, 1.0f, 1.0f));
+	light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.2f, 1.0f, 1.0f), 0.09f, 0.032f);
+	//dirLight = DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(-0.2f, -1.0f, -0.3f));
 
 	auto cube_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl","res/shaders/default_frag.glsl"));
 
@@ -38,10 +39,13 @@ void Scene::draw() const {
 
 	player->draw(cam.get_view_matrix(get_player_position()), proj, cam.get_cam_pos());
 	light.update(player->get_mesh().get_shader());
+	dirLight.update(player->get_mesh().get_shader());
 
 	for (auto& obj : objects) {
 		obj->draw(cam.get_view_matrix(get_player_position()), proj, cam.get_cam_pos());
 		light.update(obj->get_mesh().get_shader());
+		dirLight.update(obj->get_mesh().get_shader());
+
 	}
 }
 
