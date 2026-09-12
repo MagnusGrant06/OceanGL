@@ -20,6 +20,8 @@ private:
 	GLuint vbo = 0;
 	GLuint ibo = 0;
 
+	const std::string FILE_PREFIX = "res/assets/";
+
 	std::shared_ptr<Shader> shader;
 
 	std::vector<Vertex> vertices;

@@ -32,7 +32,7 @@ int Renderer::render_window() {
     glfwSetFramebufferSizeCallback(window.get(), framebuffer_size_callback);
     glEnable(GL_DEPTH_TEST);
 
-    std::shared_ptr<Mesh> player_mesh = std::make_shared<Mesh>(std::string("res/assets/shark2f.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl", "res/shaders/default_frag.glsl"));
+    std::shared_ptr<Mesh> player_mesh = std::make_shared<Mesh>(std::string("shark2f.obj"), std::make_shared<Shader>("default_vert.glsl", "default_frag.glsl"));
     Scene scene(proj, *window.get(), std::make_unique<PlayerCharacter>(player_mesh, glm::mat4(1.0f), Material(glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(0.5f, 0.5f, 0.5f), 32.0f)));
     float delta_time = 0.0f;
     float last_frame = 0.0f;

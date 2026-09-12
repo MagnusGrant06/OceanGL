@@ -34,6 +34,7 @@ private:
 		"}\n\0";
 
 	
+	const std::string FILE_PREFIX = "res/shaders/";
 
 	GLuint create_shader_program(const std::string& vertex_shader, const std::string& fragment_shader);
 
@@ -61,6 +62,8 @@ public:
 	void set_vec3(const std::string& name, const glm::vec3 vec) const;
 
 	void set_float(const std::string& name, float flt) const;
+
+	void set_int(const std::string& name, int i) const;
 
 	void use() const;
 	

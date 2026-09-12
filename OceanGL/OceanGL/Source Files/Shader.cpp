@@ -19,8 +19,8 @@ Shader::Shader(std::string vert_filepath, std::string frag_filepath) {
 
 	//load entire file buffers into streams then into strings for use
 	try {
-		vert_file.open(vert_filepath);
-		frag_file.open(frag_filepath);
+		vert_file.open(FILE_PREFIX + vert_filepath);
+		frag_file.open(FILE_PREFIX + frag_filepath);
 		std::stringstream vert_stream, frag_stream;
 
 		vert_stream << vert_file.rdbuf();
@@ -44,6 +44,7 @@ GLuint Shader::create_shader_program(const std::string& vertex_shader_source, co
 	GLuint shader;
 
 	//load vertex shader into uint 
+
 	GLuint vertex_shader;
 	const char* raw_vert_source = vertex_shader_source.c_str();
 
@@ -149,6 +150,10 @@ void Shader::set_vec3(const std::string& name, const glm::vec3 vec) const {
 
 void Shader::set_float(const std::string& name, const float flt) const {
 	glUniform1f(get_uniform_location(name), flt);
+}
+
+void Shader::set_int(const std::string& name, const int i) const {
+	glUniform1i(get_uniform_location(name), i);
 }
 
 void Shader::use() const {

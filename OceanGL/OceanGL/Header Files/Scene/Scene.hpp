@@ -18,6 +18,7 @@ class Scene {
 private:
 	std::unique_ptr<PlayerCharacter> player;
 	std::vector<std::unique_ptr<SceneObject>> objects;
+	std::vector<std::unique_ptr<Light>> lights;
 
 	Camera cam;
 	glm::mat4 proj;
@@ -29,6 +30,8 @@ private:
 public:
 
 	Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter> player);
+
+	void setup_scene();
 
 	void draw() const ;
 

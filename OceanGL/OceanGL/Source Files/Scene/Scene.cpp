@@ -16,35 +16,44 @@ Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter
 		self->process_mouse_input(xpos, ypos);
 		});
 
-	light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.2f, 1.0f, 1.0f), 0.09f, 0.032f);
-	//dirLight = DirectionalLight(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(-0.2f, -1.0f, -0.3f));
+	setup_scene();
+}
 
-	auto cube_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl","res/shaders/default_frag.glsl"));
+//setup actual values / objects / lights in scene, currently hardcoded for test objs and lights
+void Scene::setup_scene() {
 
+	lights.push_back(std::make_unique<PointLight>(
+		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+		glm::vec3(1.2f, 1.0f, 1.0f), 0.09f, 0.032f));
+	lights.push_back(std::make_unique<PointLight>(
+		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+		glm::vec3(1.2f, -1.0f, 1.0f), 0.09f, 0.032f));
 
-	auto light_mesh = std::make_shared<Mesh>(std::string("res/assets/cube.obj"), std::make_shared<Shader>("res/shaders/default_vert.glsl", "res/shaders/default_frag.glsl"));
+	lights.push_back(std::make_unique<DirectionalLight>(
+		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+		glm::vec3(-0.2f, -1.0f, -0.3f)));
+
+	auto cube_mesh = std::make_shared<Mesh>(std::string("cube.obj"), std::make_shared<Shader>("default_vert.glsl", "default_frag.glsl"));
 
 	glm::mat4 light_model = glm::mat4(1.0f);
 	light_model = glm::translate(light_model, light.get_position());
 	light_model = glm::scale(light_model, glm::vec3(0.2f));
 
 	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f), Material(glm::vec3(0.0215, 0.1745, 0.0215), glm::vec3(0.07568, 0.61424, 0.07568), glm::vec3(0.633, 0.727811, 0.633), 70.0f)));
-	add_object(std::make_unique<TestMesh>(light_mesh, light_model, Material(light.get_ambient(), light.get_diffuse(), light.get_specular(), 0.0f)));
-
-
 
 }
-
 void Scene::draw() const {
 
 	player->draw(cam.get_view_matrix(get_player_position()), proj, cam.get_cam_pos());
-	light.update(player->get_mesh().get_shader());
-	dirLight.update(player->get_mesh().get_shader());
+	for (auto& light : lights) {
+		light->update(player->get_mesh().get_shader());
+	}
 
 	for (auto& obj : objects) {
 		obj->draw(cam.get_view_matrix(get_player_position()), proj, cam.get_cam_pos());
-		light.update(obj->get_mesh().get_shader());
-		dirLight.update(obj->get_mesh().get_shader());
+		for (auto& light : lights) {
+			light->update(obj->get_mesh().get_shader());
+		}
 
 	}
 }

@@ -65,11 +65,15 @@ vec3 calcPtLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, Mate
     return (ambient + diffuse + specular);
 }
 
+uniform int lightNum;
+
 uniform Material material;
 
 uniform PointLight pointLight;
 
 uniform DirectionalLight dirLight;
+
+uniform PointLight pointLights[2];
 
 uniform vec3 lightColor;
 uniform vec3 viewPos;
@@ -82,7 +86,10 @@ void main()
     
     vec3 result = calcDirLight(dirLight, norm, viewDir, material);
 
-    result += calcPtLight(pointLight, norm, FragPos, viewDir, material);
+    for(int i = 0; i < lightNum; i++){
+        result += calcPtLight(pointLights[i], norm, FragPos, viewDir, material);
+    }
+
 
     FragColor = vec4(result, 1.0);
 

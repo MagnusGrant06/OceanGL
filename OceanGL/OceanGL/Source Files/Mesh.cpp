@@ -22,7 +22,7 @@ void Mesh::load_from_file(const std::string& filepath) {
 	std::vector<glm::vec3> temp_normals;
 
 	std::vector<int> temp_indices;
-	std::ifstream file(filepath);
+	std::ifstream file(FILE_PREFIX + filepath);
 	if (!file.is_open())
 	{
 		std::cout << "Failed to open file: " << filepath << std::endl;
