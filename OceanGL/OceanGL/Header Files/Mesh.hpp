@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <glm/glm.hpp>
+#include <functional>
 
 #include "Shader.hpp"
 

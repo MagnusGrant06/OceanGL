@@ -29,17 +29,30 @@ void Scene::setup_scene() {
 		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
 		glm::vec3(1.2f, -1.0f, 1.0f), 0.09f, 0.032f));
 
+	//lights.push_back(std::make_unique<DirectionalLight>(
+	//	glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f),
+	//	glm::vec3(-0.2f, -1.0f, -0.3f)));
+
 	lights.push_back(std::make_unique<DirectionalLight>(
-		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
-		glm::vec3(-0.2f, -1.0f, -0.3f)));
+		glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f),
+		glm::vec3(3, -1, 4)
+	));
 
-	auto cube_mesh = std::make_shared<Mesh>(std::string("cube.obj"), std::make_shared<Shader>("default_vert.glsl", "default_frag.glsl"));
+	auto default_shader = std::make_shared<Shader>("default_vert.glsl", "default_frag.glsl");
 
-	glm::mat4 light_model = glm::mat4(1.0f);
-	light_model = glm::translate(light_model, light.get_position());
-	light_model = glm::scale(light_model, glm::vec3(0.2f));
+	auto cube_mesh = std::make_shared<Mesh>(std::string("cube.obj"), default_shader);
 
-	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f), Material(glm::vec3(0.0215, 0.1745, 0.0215), glm::vec3(0.07568, 0.61424, 0.07568), glm::vec3(0.633, 0.727811, 0.633), 70.0f)));
+	auto plane_mesh = std::make_shared<Mesh>(std::string("plane.obj"), default_shader);
+
+
+
+	glm::mat4 plane_model = glm::mat4(1.0);
+
+	plane_model = glm::translate(plane_model, glm::vec3(0, 15.0, 0.0));
+	plane_model = glm::scale(plane_model, glm::vec3(100.0f));
+	add_object(std::make_unique<TestMesh>(plane_mesh, plane_model, Material(glm::vec3(0.1f, 0.18725f, 0.1745f), glm::vec3(0.396f, 0.74151f, 0.69102), glm::vec3(0.297254f, 0.30829f, 0.306678), 0.1)));
+
+	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f), Material(glm::vec3(0.0215, 0.1745, 0.0215), glm::vec3(0.07568, 0.61424, 0.07568), glm::vec3(0.633, 0.727811, 0.633), 700.0f)));
 
 }
 void Scene::draw() const {

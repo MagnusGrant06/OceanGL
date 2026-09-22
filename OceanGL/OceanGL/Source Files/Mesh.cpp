@@ -52,26 +52,43 @@ void Mesh::load_from_file(const std::string& filepath) {
 		}
 		//load face information into temporary vector
 		else if (str == "f") {
+			std::vector<std::pair<int, int>> face_vertices;
+
 			std::string triplet;
 			while (stringStream >> triplet) {
 				std::istringstream tripletStream(triplet);
 				std::string token;
+				std::vector<std::string> parts;
 
 				while (std::getline(tripletStream, token, '/')) {
-					temp_indices.push_back(std::stoi(token) - 1);
+					parts.push_back(token);
 				}
+
+				int pos_index = std::stoi(parts[0]) - 1;
+				int norm_index = -1;
+				if (parts.size() >= 3 && !parts[2].empty())
+					norm_index = std::stoi(parts[2]) - 1;
+
+				face_vertices.push_back({ pos_index, norm_index });
+			}
+
+			//fan-triangulate
+			for (size_t i = 1; i + 1 < face_vertices.size(); ++i) {
+				auto add_vertex = [&](const std::pair<int, int>& v) {
+					glm::vec3 normal = (v.second >= 0) ? temp_normals[v.second] : glm::vec3(0.0f, 1.0f, 0.0f);
+					vertices.push_back(Vertex(temp_positions[v.first], normal));
+					indices.push_back(static_cast<int>(vertices.size()) - 1);
+					};
+
+				add_vertex(face_vertices[0]);
+				add_vertex(face_vertices[i]);
+				add_vertex(face_vertices[i + 1]);
 			}
 
 		}
 		else {
 			continue;
 		}
-	}
-
-	//loop through temp lists and create list of vertex to lookup in build
-	for (size_t i = 0; i < temp_indices.size() - 2; i += 3) {
-		vertices.push_back(Vertex(temp_positions[temp_indices[i]], temp_normals[temp_indices[i + 2]]));
-		indices.push_back(static_cast<int>(vertices.size()) - 1);
 	}
 }
 
@@ -139,8 +156,6 @@ Mesh::~Mesh() {
 
 void Mesh::draw_mesh() const{
 	if (vao == 0) return;
-
-	shader->use();
 
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);

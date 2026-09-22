@@ -4,6 +4,9 @@
 
 class PointLight : public Light {
 private:
+
+	bool debug = false;
+
 	glm::vec3 position;
 
 	float attenuation_linear = 0.0;
@@ -20,6 +23,7 @@ public:
 
 	void update(const Shader& shader) const override;
 
+	void draw_debug(bool b);
 
 	const glm::vec3& get_position() const;
 };

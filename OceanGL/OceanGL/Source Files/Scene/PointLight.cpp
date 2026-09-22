@@ -20,4 +20,6 @@ void PointLight::update(const const Shader& shader) const{
 	shader.set_vec3("pointLights[" + std::to_string(id) + "].specular", specular);
 }
 
+bool PointLight::draw_debug(bool b) { debug = b; }
+
 const glm::vec3& PointLight::get_position() const { return position; }
