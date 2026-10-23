@@ -5,7 +5,7 @@ Shader::Shader() {
 	shader_id = create_shader_program(default_vertex_shader, default_fragment_shader);
 }
 
-Shader::Shader(std::string vert_filepath, std::string frag_filepath) {
+Shader::Shader(std::string vert_filepath, std::string frag_filepath, std::function<void()> special_args) : unique_shader_attr(special_args) {
 
 	//empty strings for shaders to be loaded into
 	std::string vertex_source;
@@ -158,4 +158,10 @@ void Shader::set_int(const std::string& name, const int i) const {
 
 void Shader::use() const {
 	glUseProgram(shader_id);
+}
+
+void Shader::apply_unique_attr() {
+	if (unique_shader_attr) {
+		unique_shader_attr();
+	}
 }

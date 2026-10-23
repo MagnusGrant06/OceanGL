@@ -3,6 +3,7 @@
 #include "Scene/DynamicObject.hpp"
 #include "Scene/PlayerCharacter.hpp"
 #include "Scene/TestMesh.hpp"
+#include "Scene/SkyBox.hpp"
 
 Scene::Scene(glm::mat4 proj, GLFWwindow& window, std::unique_ptr<PlayerCharacter> player) : proj(proj), window(window), player(std::move(player)) {
 
@@ -37,6 +38,10 @@ void Scene::setup_scene() {
 
 	auto default_shader = std::make_shared<Shader>("default_vert.glsl", "default_frag.glsl");
 
+	auto skybox_shader = std::make_shared<Shader>("skybox_vert.glsl", "skybox_frag.glsl");
+
+	auto skybox_mesh = std::make_shared<Mesh>(std::string("cube.obj"), skybox_shader);
+
 	auto cube_mesh = std::make_shared<Mesh>(std::string("cube.obj"), default_shader);
 
 	auto plane_mesh = std::make_shared<Mesh>(std::string("plane.obj"), default_shader);
@@ -57,9 +62,11 @@ void Scene::setup_scene() {
 
 	plane_model = glm::translate(plane_model, glm::vec3(0, 15.0, 0.0));
 	plane_model = glm::scale(plane_model, glm::vec3(100.0f));
-	add_object(std::make_unique<TestMesh>(plane_mesh, plane_model, Material(glm::vec3(0.1f, 0.18725f, 0.1745f), glm::vec3(0.396f, 0.74151f, 0.69102), glm::vec3(0.297254f, 0.30829f, 0.306678), 0.1)));
+	//add_object(std::make_unique<TestMesh>(plane_mesh, plane_model, Material(glm::vec3(0.1f, 0.18725f, 0.1745f), glm::vec3(0.396f, 0.74151f, 0.69102), glm::vec3(0.297254f, 0.30829f, 0.306678), 0.1)));
 
 	add_object(std::make_unique<TestMesh>(cube_mesh, glm::mat4(1.0f), Material(glm::vec3(0.0215, 0.1745, 0.0215), glm::vec3(0.07568, 0.61424, 0.07568), glm::vec3(0.633, 0.727811, 0.633), 700.0f)));
+
+	add_object(std::make_unique<SkyBox>(skybox_mesh, glm::mat4(1.0f), Material(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), 0.0f)));
 
 }
 void Scene::draw() const {

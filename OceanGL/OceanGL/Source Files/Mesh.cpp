@@ -20,6 +20,7 @@ Mesh::Mesh(const std::vector<Vertex> vertices, const std::vector<int> indices, s
 void Mesh::load_from_file(const std::string& filepath) {
 	std::vector<glm::vec3> temp_positions;
 	std::vector<glm::vec3> temp_normals;
+	std::vector<glm::vec3> temp_textures;
 
 	std::vector<int> temp_indices;
 	std::ifstream file(FILE_PREFIX + filepath);
@@ -50,9 +51,15 @@ void Mesh::load_from_file(const std::string& filepath) {
 			temp_normals.push_back(glm::vec3(v1, v2, v3));
 
 		}
+
+		else if (str == "vt"){
+			float v1, v2, v3;
+			stringStream >> v1 >> v2 >> v3;
+			temp_textures.push_back(glm::vec3(v1, v2, v3));
+		}
 		//load face information into temporary vector
 		else if (str == "f") {
-			std::vector<std::pair<int, int>> face_vertices;
+			std::vector<FaceVertex> face_vertices;
 
 			std::string triplet;
 			while (stringStream >> triplet) {
@@ -64,19 +71,23 @@ void Mesh::load_from_file(const std::string& filepath) {
 					parts.push_back(token);
 				}
 
-				int pos_index = std::stoi(parts[0]) - 1;
-				int norm_index = -1;
-				if (parts.size() >= 3 && !parts[2].empty())
-					norm_index = std::stoi(parts[2]) - 1;
+				FaceVertex fv;
+				fv.pos = std::stoi(parts[0]) - 1;
 
-				face_vertices.push_back({ pos_index, norm_index });
+				if (parts.size() >= 2 && !parts[1].empty())
+					fv.tex = std::stoi(parts[1]) - 1;
+				if (parts.size() >= 3 && !parts[2].empty())
+					fv.norm = std::stoi(parts[2]) - 1;
+
+				face_vertices.push_back(fv);
 			}
 
 			//fan-triangulate
 			for (size_t i = 1; i + 1 < face_vertices.size(); ++i) {
-				auto add_vertex = [&](const std::pair<int, int>& v) {
-					glm::vec3 normal = (v.second >= 0) ? temp_normals[v.second] : glm::vec3(0.0f, 1.0f, 0.0f);
-					vertices.push_back(Vertex(temp_positions[v.first], normal));
+				auto add_vertex = [&](const FaceVertex v) {
+					glm::vec3 normal = (v.norm >= 0) ? temp_normals[v.norm] : glm::vec3(0.0f, 1.0f, 0.0f);
+					glm::vec2 uv = (v.tex >= 0) ? temp_textures[v.tex] : glm::vec2(0.0f);
+					vertices.push_back(Vertex(temp_positions[v.pos], normal, uv));
 					indices.push_back(static_cast<int>(vertices.size()) - 1);
 					};
 
@@ -111,6 +122,9 @@ void Mesh::build_mesh_object() {
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
@@ -163,6 +177,10 @@ void Mesh::draw_mesh() const{
 
 const Shader& Mesh::get_shader() const {
 	return *shader;
+}
+
+const GLuint& Mesh::get_vao() const {
+	return vao;
 }
 
 void Mesh::printMeshData() {

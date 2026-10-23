@@ -12,7 +12,10 @@
 struct Vertex {
 	glm::vec3 position;
 	glm::vec3 normal;
+	glm::vec2 texture;
 };
+
+struct FaceVertex { int pos = -1; int tex = -1; int norm = -1; };
 
 class Mesh {
 
@@ -48,6 +51,8 @@ public:
 	~Mesh();
 
 	const Shader& get_shader() const;
+
+	const GLuint& get_vao() const;
 
 	void draw_mesh() const;
 

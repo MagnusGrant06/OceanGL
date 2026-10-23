@@ -147,9 +147,11 @@
     <ClCompile Include="Source Files\Scene\PlayerCharacter.cpp" />
     <ClCompile Include="Source Files\Scene\PointLight.cpp" />
     <ClCompile Include="Source Files\Scene\Scene.cpp" />
+    <ClCompile Include="Source Files\Scene\SkyBox.cpp" />
     <ClCompile Include="Source Files\Scene\StaticObject.cpp" />
     <ClCompile Include="Source Files\Shader.cpp" />
     <ClInclude Include="Header Files\Shader.hpp" />
+    <ClInclude Include="Header Files\Scene\SkyBox.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Camera.hpp" />

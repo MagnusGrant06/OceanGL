@@ -39,13 +39,15 @@ private:
 	GLuint create_shader_program(const std::string& vertex_shader, const std::string& fragment_shader);
 
 	mutable std::unordered_map<std::string, GLuint> location_cache;
+
+	std::function<void()> unique_shader_attr;
 public:
 
 	GLuint shader_id;
 
 	Shader();
 
-	Shader(std::string vert_filepath, std::string frag_filepath);
+	Shader(std::string vert_filepath, std::string frag_filepath, std::function<void()> special_args = nullptr);
 
 	Shader(const Shader&) = delete;
 	Shader& operator=(const Shader&) = delete;
@@ -66,5 +68,7 @@ public:
 	void set_int(const std::string& name, int i) const;
 
 	void use() const;
+
+	void apply_unique_attr();
 	
 };
