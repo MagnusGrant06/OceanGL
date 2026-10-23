@@ -8,7 +8,7 @@ PointLight::PointLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular,
 	instance_count++;
 }
 
-void PointLight::update(const const Shader& shader) const{
+void PointLight::update(const const Shader& shader) const {
 	shader.use();
 	shader.set_int("lightNum", instance_count);
 	shader.set_float("pointLights[" + std::to_string(id) + "].constant", 1.0);
@@ -20,6 +20,7 @@ void PointLight::update(const const Shader& shader) const{
 	shader.set_vec3("pointLights[" + std::to_string(id) + "].specular", specular);
 }
 
-bool PointLight::draw_debug(bool b) { debug = b; }
+
+void PointLight::draw_debug(bool b) { debug = b; }
 
 const glm::vec3& PointLight::get_position() const { return position; }

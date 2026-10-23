@@ -24,14 +24,11 @@ void Scene::setup_scene() {
 
 	lights.push_back(std::make_unique<PointLight>(
 		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
-		glm::vec3(1.2f, 1.0f, 1.0f), 0.09f, 0.032f));
+		glm::vec3(1.2f, 1.0f, 6.0f), 0.09f, 0.032f));
 	lights.push_back(std::make_unique<PointLight>(
 		glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
-		glm::vec3(1.2f, -1.0f, 1.0f), 0.09f, 0.032f));
+		glm::vec3(5.2f, -1.0f, 1.0f), 0.09f, 0.032f));
 
-	//lights.push_back(std::make_unique<DirectionalLight>(
-	//	glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f),
-	//	glm::vec3(-0.2f, -1.0f, -0.3f)));
 
 	lights.push_back(std::make_unique<DirectionalLight>(
 		glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f),
@@ -44,7 +41,17 @@ void Scene::setup_scene() {
 
 	auto plane_mesh = std::make_shared<Mesh>(std::string("plane.obj"), default_shader);
 
+	for (auto& light : lights) {
+		if (auto* dynamic = dynamic_cast<PointLight*>(light.get())) {
+			glm::mat4 light_model(1.0f);
 
+			light_model = glm::translate(light_model, dynamic->get_position());
+			light_model = glm::scale(light_model, glm::vec3(0.5f));
+
+
+			add_object(std::make_unique<TestMesh>(cube_mesh, light_model, Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f), 0.0)));
+		}
+	}
 
 	glm::mat4 plane_model = glm::mat4(1.0);
 

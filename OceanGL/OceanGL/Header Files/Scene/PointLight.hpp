@@ -16,7 +16,7 @@ private:
 
 	inline static int instance_count = 0;
 
-public:
+public: 
 
 	PointLight() : Light(glm::vec3(0), glm::vec3(0), glm::vec3(0)), position(glm::vec3(0)) { id = 0; }
 	PointLight(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position, float linear, float quadratic);
